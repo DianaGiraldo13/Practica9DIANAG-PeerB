@@ -8,6 +8,7 @@ import processing.core.PImage;
 public class AndroidPeerB extends PApplet{
 	
 	UDPConnectionPeerB udp;
+	boolean listoelpedido;
 
 	public static void main(String[] args) {
 		PApplet.main("main.AndroidPeerB");
@@ -30,7 +31,7 @@ public class AndroidPeerB extends PApplet{
 		
 		udp = new UDPConnectionPeerB();
 		udp.start();
-		
+		udp.setPeerB(this);
 		BonYurt=loadImage("../Data/Bon yurt.jpg");
 		JugoHit=loadImage("../Data/Jugo hit.jpg");
 		Perro=loadImage("../Data/Perro.jpg");
@@ -40,15 +41,20 @@ public class AndroidPeerB extends PApplet{
 	}
 	
 	public void draw() {
+		background(0);
+		
 		image(BonYurt, 10,10,100,100);
 		image(JugoHit, 120,10,80,100);
 		image(Perro, 220,10,130,100);
 		image(Sandwich, 360,10,100,100);
+		if(listoelpedido) {
+			text("Ya esta listo el pedido",400,400);
+		}
 		
 	}
 
 	public void mousePressed() {
-		udp.sendMessage("Hola desde PeerB");
+		
 		
 		if(mouseX>10&&mouseX<110&&mouseY>10&&mouseY<110) {
 			System.out.println("BonYurt");
@@ -76,6 +82,13 @@ public class AndroidPeerB extends PApplet{
 			udp.sendMessage(mensaje);
 			
 			
+		}
+		
+	}
+	public void onConfirmacion(ConfirmaciondePedido confirmacion) {
+		if(confirmacion.isListoelpedido()) {
+			listoelpedido=true;
+			System.out.println("confirmacion");
 		}
 		
 	}

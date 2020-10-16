@@ -7,9 +7,12 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
+import com.google.gson.Gson;
+
 public class UDPConnectionPeerB extends Thread{
 	
 	private DatagramSocket socket;
+	private AndroidPeerB peerb;
 	
 	@Override
 	public void run() {
@@ -31,6 +34,10 @@ public class UDPConnectionPeerB extends Thread{
 				socket.receive(packet);
 				
 				String mensaje = new String(packet.getData()).trim();
+				Gson gson = new Gson();
+				ConfirmaciondePedido confirmacion=gson.fromJson(mensaje,ConfirmaciondePedido.class);
+				peerb.onConfirmacion(confirmacion);
+				
 				
 				System.out.println("Datagrama recibido:"+ mensaje);
 				
@@ -73,6 +80,10 @@ public class UDPConnectionPeerB extends Thread{
 		
 	
 		
+		
+	}
+	public void setPeerB(AndroidPeerB peerb) {
+		this.peerb=peerb;
 		
 	}
 
