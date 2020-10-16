@@ -48,7 +48,11 @@ public class AndroidPeerB extends PApplet{
 		image(Perro, 220,10,130,100);
 		image(Sandwich, 360,10,100,100);
 		if(listoelpedido) {
-			text("Ya esta listo el pedido",400,400);
+			text("Ya esta listo el pedido",200,400);
+			if(frameCount%200==0) {
+				listoelpedido=false;
+			}
+			
 		}
 		
 	}
